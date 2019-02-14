@@ -2,7 +2,7 @@ import requests
 import json
 
 PLATFORM = "steam"
-PLAYER_NAMES = "supernewb"
+PLAYER_NAMES = "YOUR_PUBG_USERNAME"
 API_KEY = "YOUR_API_KEY"
 PLAYER_REQUEST_URL = "https://api.pubg.com/shards/" + PLATFORM + "/players?filter[playerNames]=" + PLAYER_NAMES
 API_REQUEST_HEADERS = {
@@ -24,7 +24,7 @@ def main():
             potentially_new_match_ids.add(match["id"])
 
     #load all the match ids I already have telemetry for
-    previous_match_file = open(MATCHES_FILE, "r+")
+    previous_match_file = open(MATCHES_FILE, "a+")
     previous_match_ids = set(previous_match_file.read().splitlines())
 
     #here are the ones we don't have data for
