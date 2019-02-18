@@ -1,7 +1,12 @@
 import requests
 import json
 import os
+import time
 
+import smtplib
+import ssl
+
+SEND_EMAIL_ENABLED = True
 
 PLATFORM = "steam"
 PLAYER_NAMES = "YOUR_USERNAME"
@@ -15,6 +20,15 @@ API_REQUEST_HEADERS = {
 MATCHES_FILE = "matches.txt"
 
 def main():
+    start_time = time.time()
+
+    port = 587  # For starttls
+    smtp_server = "smtp.gmail.com"
+    sender_email = "SENDER_EMAIL"
+    receiver_email = "RECEIVER_EMAIL"
+    password = "SENDER_PASSWORD"
+    match_count = 0
+    message = "Subject: PUBG DATA MINER REPORT\n\n"
     print("Loading player info for " + PLAYER_NAMES)
     player_response = requests.get(PLAYER_REQUEST_URL, headers=API_REQUEST_HEADERS).json()["data"]
 
@@ -56,7 +70,25 @@ def main():
                 telemetry_file = open(os.path.join(match_attributes["mapName"], match_attributes["gameMode"], item["id"]), 'w')
                 print("WRITING: telemetry " + item["id"])
                 telemetry_file.write(json.dumps(telemetry, ensure_ascii=False))
+                match_count = match_count + 1
+                message += (match_id + "\n")
                 previous_match_file.write(match_id + "\n")
+    message += ("\n\nTotal of " + str(match_count) + " matches downloaded in " + str(time.time() - start_time))
+
+    if SEND_EMAIL_ENABLED:
+        context = ssl.create_default_context()
+        try:
+            server = smtplib.SMTP(smtp_server, port)
+            server.starttls(context=context)
+
+            print("logging in to email server")
+            server.login(sender_email, password)
+            print("login successful, sending email")
+            server.sendmail(sender_email, receiver_email, message)
+        except Exception as e:
+            print(e)
+        finally:
+            server.quit()
 
 
 if __name__ == "__main__": main()
