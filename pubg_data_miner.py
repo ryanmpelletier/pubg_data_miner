@@ -4,8 +4,8 @@ import os
 
 
 PLATFORM = "steam"
-PLAYER_NAMES = "supernewb"
-API_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxZWE1YzViMC0xOTVlLTAxMzYtNWZkMC00ZmM4YmMzYjI1ZjkiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTIyNzU0MDc3LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6InB1YmdzbWFjayIsInNjb3BlIjoiY29tbXVuaXR5IiwibGltaXQiOjEwfQ.H2kCPsmc9XLPYa_-3luNh2hvUpmcV6OGoJevql7BBgM"
+PLAYER_NAMES = "YOUR_USERNAME"
+API_KEY = "YOUR_API_KEY"
 PLAYER_REQUEST_URL = "https://api.pubg.com/shards/" + PLATFORM + "/players?filter[playerNames]=" + PLAYER_NAMES
 API_REQUEST_HEADERS = {
     "Authorization": ("Bearer " + API_KEY),
